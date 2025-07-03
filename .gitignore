@@ -1,0 +1,10 @@
+/notes
+/.mypy_cache
+/.venv
+
+# Byte-compiled
+__pycache__/
+**/__pycache__/
+
+# Security
+.env*
