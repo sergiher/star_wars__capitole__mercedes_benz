@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    env_file: .env
+    ports:
+      - "6969:6969"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      - FRONTEND_WEB_BASE_URL=${FRONTEND_WEB_BASE_URL}
+      - API_BASE_URL=${API_BASE_URL}
+    tty: true
