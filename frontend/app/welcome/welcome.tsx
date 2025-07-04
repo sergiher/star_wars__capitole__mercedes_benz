@@ -1,29 +1,31 @@
-// frontend/app/welcome/welcome.tsx
 import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
+
+import { getPeopleDataApi } from "~/infrastructure/api/dataApi";
 
 type Person = {
   name: string;
-  planet: string;
+  height: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  films: string[];
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string;
+  edited: string;
+  url: string;
 };
 
-const mockData: Person[] = [
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Luke Skywalker", planet: "Tatooine" },
-  { name: "Robert", planet: "Bomsky" },
-  { name: "Robert", planet: "Bomsky" },
-  { name: "Robert", planet: "Bomsky" },
-  { name: "Robert", planet: "Bomsky" },
-  { name: "Robert", planet: "Bomsky" },
-];
-
 export function Welcome() {
-  const tableData: Person[] = mockData;
+  const [data, setData] = useState<Person[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
@@ -32,18 +34,35 @@ export function Welcome() {
         header: "Name",
       },
       {
-        accessorKey: "planet",
-        header: "Planet",
+        accessorKey: "created",
+        header: "Created",
       },
     ],
     []
   );
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getPeopleDataApi();
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Box p={4}>
       <MaterialReactTable
         columns={columns}
-        data={tableData}
+        data={data}
+        state={{ isLoading: loading }}
         enableSorting
         enableGlobalFilter
         enableStickyHeader
