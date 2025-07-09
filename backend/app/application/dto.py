@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 from app.domain.types.sort_options import (  # type: ignore
     SortAlgorithm,
@@ -11,7 +12,7 @@ from pydantic import BaseModel
 class SortOptions(BaseModel):
     field: SortField
     direction: SortDirection
-    algorithm: SortAlgorithm
+    algorithm: Optional[SortAlgorithm] = None
 
 
 class StarWarsElement(BaseModel):

@@ -27,14 +27,11 @@ class StarwarsEntityService:
     def sort_elements(
         self,
         starwars_elements: List[StarwarsEntity],
-        sort_options: SortOptions = {
-            "field": "name",
-            "direction": SortDirection.ASC,
-            "algorithm": SortAlgorithm.POWER_SORT,
-        },
+        sort_options: SortOptions,
     ) -> List[StarwarsEntity]:
         """Sort starwars_elements by sort_options"""
-        strategy = get_sorting_strategy(sort_options.algorithm)
+        algorithm = sort_options.algorithm or SortAlgorithm.POWER_SORT
+        strategy = get_sorting_strategy(algorithm)
         return SortingContext(strategy).sort_data(
             data=starwars_elements,
             sort_by=sort_options.field,
