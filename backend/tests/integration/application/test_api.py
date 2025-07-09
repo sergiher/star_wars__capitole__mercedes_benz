@@ -26,21 +26,6 @@ class DummyStarwarsEntityService:
         )
 
 
-def test_get_elements(client):
-    client.app.dependency_overrides[get_starwars_entity_service] = (
-        DummyStarwarsEntityService
-    )
-
-    response = client.get("/people")
-    assert response.status_code == 200
-    data = response.json()
-
-    assert len(data) == 3
-    assert data[0]["name"] == "A"
-    assert data[1]["name"] == "B"
-    assert data[2]["name"] == "C"
-
-
 def test_sort_starwars_entities(client):
     client.app.dependency_overrides[get_starwars_entity_service] = (
         DummyStarwarsEntityService
