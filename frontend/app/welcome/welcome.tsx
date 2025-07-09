@@ -1,8 +1,15 @@
-import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
+import {
+  MaterialReactTable,
+  type MRT_ColumnDef,
+  type MRT_SortingState,
+} from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 
-import { getPeopleDataApi } from "~/infrastructure/api/dataApi";
+import {
+  getPeopleDataApi,
+  postSortingDataApi,
+} from "~/infrastructure/api/dataApi";
 
 type Person = {
   name: string;
@@ -26,6 +33,30 @@ type Person = {
 export function Welcome() {
   const [data, setData] = useState<Person[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sorting, setSorting] = useState<MRT_SortingState>([]);
+
+  const fetchDataWithSorting = async (sortingState: MRT_SortingState) => {
+    setLoading(true);
+    try {
+      const sortParams = sortingState.map((sort) => ({
+        field: sort.id,
+        direction: sort.desc ? "desc" : "asc",
+      }));
+
+      const response = await postSortingDataApi(sortParams);
+
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching sorted data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataWithSorting(sorting);
+  }, [sorting]);
 
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
@@ -62,10 +93,12 @@ export function Welcome() {
       <MaterialReactTable
         columns={columns}
         data={data}
-        state={{ isLoading: loading }}
+        state={{ isLoading: loading, sorting: sorting }}
         enableSorting
         enableGlobalFilter
         enableStickyHeader
+        manualSorting={true}
+        onSortingChange={setSorting}
         initialState={{
           pagination: {
             pageSize: 15,

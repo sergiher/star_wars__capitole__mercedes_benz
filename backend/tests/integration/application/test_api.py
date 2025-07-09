@@ -47,7 +47,7 @@ def test_sort_starwars_entities(client):
     )
 
     response = client.post(
-        "/starwars/sort/people",
+        "/sort/people",
         json={
             "field": "name",
             "direction": "desc",

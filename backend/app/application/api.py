@@ -32,7 +32,7 @@ def get_elements(
 
 
 @router.post(
-    "/starwars/sort/{entity_type}",
+    "/sort/{entity_type}",
     response_model=List[StarWarsElement],
 )
 def sort_starwars_entities(
