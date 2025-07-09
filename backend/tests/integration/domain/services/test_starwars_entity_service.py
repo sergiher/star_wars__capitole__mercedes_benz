@@ -5,6 +5,7 @@ from app.domain.services.starwars_entity_service import (  # type: ignore
 from app.domain.types.sort_options import (  # type: ignore  # noqa: E501
     SortAlgorithm,
     SortDirection,
+    SortOptions,
 )
 from app.infrastructure.api_repositories.starwars_entity_api_repository import (  # type: ignore  # noqa: E501
     StarwarsEntityApiRepository,
@@ -37,11 +38,11 @@ def test_starwars_entity_service_sort_elements(starwars_entity_service):
     sw_people = starwars_entity_service.get_all_elements(entity_type="people")
     sw_people_sorted = starwars_entity_service.sort_elements(
         starwars_elements=sw_people,
-        sort_options={
-            "field": "created",
-            "direction": SortDirection.DESC,
-            "algorithm": SortAlgorithm.POWER_SORT,
-        },
+        sort_options=SortOptions(
+            field="created",
+            direction=SortDirection.DESC,
+            algorithm=SortAlgorithm.POWER_SORT,
+        ),
     )
     assert sw_people_sorted[0].name == "Tion Medon"
     assert sw_people_sorted[1].name == "Sly Moore"
@@ -49,11 +50,11 @@ def test_starwars_entity_service_sort_elements(starwars_entity_service):
 
     sw_people_sorted = starwars_entity_service.sort_elements(
         starwars_elements=sw_people,
-        sort_options={
-            "field": "name",
-            "direction": SortDirection.DESC,
-            "algorithm": SortAlgorithm.POWER_SORT,
-        },
+        sort_options=SortOptions(
+            field="name",
+            direction=SortDirection.DESC,
+            algorithm=SortAlgorithm.POWER_SORT,
+        ),
     )
     assert sw_people_sorted[0].name == "Zam Wesell"
     assert sw_people_sorted[1].name == "Yoda"
@@ -61,11 +62,11 @@ def test_starwars_entity_service_sort_elements(starwars_entity_service):
 
     sw_people_sorted = starwars_entity_service.sort_elements(
         starwars_elements=sw_people,
-        sort_options={
-            "field": "name",
-            "direction": SortDirection.ASC,
-            "algorithm": SortAlgorithm.POWER_SORT,
-        },
+        sort_options=SortOptions(
+            field="name",
+            direction=SortDirection.ASC,
+            algorithm=SortAlgorithm.POWER_SORT,
+        ),
     )
     assert sw_people_sorted[0].name == "Ackbar"
     assert sw_people_sorted[1].name == "Adi Gallia"
@@ -73,11 +74,11 @@ def test_starwars_entity_service_sort_elements(starwars_entity_service):
 
     sw_people_sorted = starwars_entity_service.sort_elements(
         starwars_elements=sw_people,
-        sort_options={
-            "field": "name",
-            "direction": SortDirection.DESC,
-            "algorithm": SortAlgorithm.BUBBLE_SORT,
-        },
+        sort_options=SortOptions(
+            field="name",
+            direction=SortDirection.DESC,
+            algorithm=SortAlgorithm.BUBBLE_SORT,
+        ),
     )
     assert sw_people_sorted[0].name == "Zam Wesell"
     assert sw_people_sorted[1].name == "Yoda"
@@ -85,11 +86,11 @@ def test_starwars_entity_service_sort_elements(starwars_entity_service):
 
     sw_people_sorted = starwars_entity_service.sort_elements(
         starwars_elements=sw_people,
-        sort_options={
-            "field": "name",
-            "direction": SortDirection.DESC,
-            "algorithm": SortAlgorithm.SELECTION_SORT,
-        },
+        sort_options=SortOptions(
+            field="name",
+            direction=SortDirection.DESC,
+            algorithm=SortAlgorithm.SELECTION_SORT,
+        ),
     )
     assert sw_people_sorted[0].name == "Zam Wesell"
     assert sw_people_sorted[1].name == "Yoda"
