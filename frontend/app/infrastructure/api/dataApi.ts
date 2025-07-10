@@ -7,7 +7,7 @@ export async function postSortingDataApi(
   }[]
 ) {
   const hasSorting = sortParams && sortParams.length > 0;
-  const baseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
   const response = await fetch(`${baseUrl}/sort/${entity_type}`, {
     method: "POST",
     headers: {
