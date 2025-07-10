@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { Welcome } from "../welcome";
+// @ts-ignore
 import React, { act } from "react";
 import "@testing-library/jest-dom";
 
