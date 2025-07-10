@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   MaterialReactTable,
   type MRT_ColumnDef,
@@ -28,12 +28,18 @@ type Planet = {
 };
 
 export function Welcome() {
+  const peopleInitialized = useRef(false);
+  const planetsInitialized = useRef(false);
   const [peopleData, setPeopleData] = useState<Person[]>([]);
   const [planetsData, setPlanetsData] = useState<Planet[]>([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
   const [loadingPlanets, setLoadingPlanets] = useState(true);
-  const [sortingPeople, setSortingPeople] = useState<MRT_SortingState>([]);
-  const [sortingPlanets, setSortingPlanets] = useState<MRT_SortingState>([]);
+  const [sortingPeople, setSortingPeople] = useState<MRT_SortingState>([
+    { id: "name", desc: false },
+  ]);
+  const [sortingPlanets, setSortingPlanets] = useState<MRT_SortingState>([
+    { id: "name", desc: false },
+  ]);
   const [algorithm, setAlgorithm] = useState("");
 
   async function fetchSortedData<T>(
@@ -64,10 +70,19 @@ export function Welcome() {
   }
 
   useEffect(() => {
+    if (!peopleInitialized.current) {
+      peopleInitialized.current = true;
+      return;
+    }
     fetchSortedData("people", sortingPeople, setPeopleData, setLoadingPeople);
   }, [sortingPeople]);
 
   useEffect(() => {
+    if (!planetsInitialized.current) {
+      planetsInitialized.current = true;
+      return;
+    }
+
     fetchSortedData(
       "planets",
       sortingPlanets,
