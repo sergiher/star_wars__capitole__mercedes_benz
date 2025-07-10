@@ -34,12 +34,8 @@ export function Welcome() {
   const [planetsData, setPlanetsData] = useState<Planet[]>([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
   const [loadingPlanets, setLoadingPlanets] = useState(true);
-  const [sortingPeople, setSortingPeople] = useState<MRT_SortingState>([
-    { id: "name", desc: false },
-  ]);
-  const [sortingPlanets, setSortingPlanets] = useState<MRT_SortingState>([
-    { id: "name", desc: false },
-  ]);
+  const [sortingPeople, setSortingPeople] = useState<MRT_SortingState>([]);
+  const [sortingPlanets, setSortingPlanets] = useState<MRT_SortingState>([]);
   const [algorithm, setAlgorithm] = useState("");
 
   async function fetchSortedData<T>(
