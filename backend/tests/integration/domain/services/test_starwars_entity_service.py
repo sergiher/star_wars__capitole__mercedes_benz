@@ -26,7 +26,9 @@ def test_starwars_entity_service_get_all_elements(starwars_entity_service):
     assert type(sw_people[0].created) is str
     assert sw_people[0].created == "2014-12-09T13:50:51.644000Z"
 
-    sw_planets = starwars_entity_service.get_all_elements(entity_type="planets")
+    sw_planets = starwars_entity_service.get_all_elements(
+        entity_type="planets"
+    )  # noqa: E501
     assert sw_planets[0].name == "Tatooine"
     assert sw_planets[1].name == "Alderaan"
     assert sw_planets[2].name == "Yavin IV"

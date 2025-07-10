@@ -13,6 +13,9 @@ class SortingContext:
         self._strategy = strategy
 
     def sort_data(
-        self, data: List[StarwarsEntity], sort_by: SortField, direction: SortDirection
+        self,
+        data: List[StarwarsEntity],
+        sort_by: SortField,
+        direction: SortDirection,  # noqa: E501
     ) -> List[StarwarsEntity]:
         return self._strategy.sort(data, sort_by, direction)

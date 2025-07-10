@@ -9,10 +9,11 @@ from app.domain.repositories.starwars_entity_repository import (  # type: ignore
 from app.domain.services.sorting_context import (  # type: ignore  # noqa: E501
     SortingContext,
 )
-from app.domain.services.sorting_factory import get_sorting_strategy  # type: ignore
-from app.domain.types.sort_options import (  # type: ignore
+from app.domain.services.sorting_factory import (  # type: ignore  # noqa: E501
+    get_sorting_strategy,
+)
+from app.domain.types.sort_options import (  # type: ignore  # noqa: E501
     SortAlgorithm,
-    SortDirection,
     SortOptions,
 )
 

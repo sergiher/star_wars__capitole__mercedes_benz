@@ -20,20 +20,24 @@ class DummyStarWarsEntityRepo:
             return [
                 StarwarsEntity(name="Luke", created=current_time),
                 StarwarsEntity(
-                    name="Person 2", created=current_time + timedelta(minutes=2)
+                    name="Person 2",
+                    created=current_time + timedelta(minutes=2),  # noqa: E501
                 ),
                 StarwarsEntity(
-                    name="Person 3", created=current_time + timedelta(minutes=3)
+                    name="Person 3",
+                    created=current_time + timedelta(minutes=3),  # noqa: E501
                 ),
             ]
         elif entity_type == "planets":
             return [
                 StarwarsEntity(name="Tatooine", created=current_time),
                 StarwarsEntity(
-                    name="Planet 2", created=current_time + timedelta(minutes=2)
+                    name="Planet 2",
+                    created=current_time + timedelta(minutes=2),  # noqa: E501
                 ),
                 StarwarsEntity(
-                    name="Planet 3", created=current_time + timedelta(minutes=3)
+                    name="Planet 3",
+                    created=current_time + timedelta(minutes=3),  # noqa: E501
                 ),
             ]
         else:
@@ -53,7 +57,9 @@ def test_starwars_entity_service_get_all_elements(starwars_entity_service):
     assert sw_people[2].name == "Person 3"
     assert type(sw_people[0].created) is datetime
 
-    sw_planets = starwars_entity_service.get_all_elements(entity_type="planets")
+    sw_planets = starwars_entity_service.get_all_elements(
+        entity_type="planets"
+    )  # noqa: E501
     assert sw_planets[0].name == "Tatooine"
     assert sw_planets[1].name == "Planet 2"
     assert sw_planets[2].name == "Planet 3"

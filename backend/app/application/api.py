@@ -5,11 +5,10 @@ from app.application.dependencies.services.starwars_entity import (  # type: ign
     get_starwars_entity_service,
 )
 from app.application.dto import SortOptions, StarWarsElement  # type: ignore
-from app.config import Settings  # type: ignore
 from app.domain.services.starwars_entity_service import (  # type: ignore  # noqa: E501
     StarwarsEntityService,
 )
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -30,5 +29,7 @@ def sort_starwars_entities(
     if sort_options is None:
         return elements
 
-    sorted_elements = starwars_entity_service.sort_elements(elements, sort_options)
+    sorted_elements = starwars_entity_service.sort_elements(
+        elements, sort_options
+    )  # noqa: E501
     return sorted_elements

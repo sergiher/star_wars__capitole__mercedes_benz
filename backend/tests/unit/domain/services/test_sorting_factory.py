@@ -20,7 +20,8 @@ def test_sorting_factory():
     )
 
     assert isinstance(
-        get_sorting_strategy(algorithm=SortAlgorithm.SELECTION_SORT), SelectionSort
+        get_sorting_strategy(algorithm=SortAlgorithm.SELECTION_SORT),
+        SelectionSort,  # noqa: E501
     )
 
     with pytest.raises(ValueError):

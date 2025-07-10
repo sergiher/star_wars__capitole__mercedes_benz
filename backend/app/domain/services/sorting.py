@@ -11,14 +11,20 @@ from app.domain.types.sort_options import (  # type: ignore  # noqa: E501
 class SortingStrategy(ABC):
     @abstractmethod
     def sort(
-        self, data: List[StarwarsEntity], sort_by: SortField, direction: SortDirection
+        self,
+        data: List[StarwarsEntity],
+        sort_by: SortField,
+        direction: SortDirection,  # noqa: E501
     ) -> List[StarwarsEntity]:
         pass
 
 
 class PowerSort(SortingStrategy):
     def sort(
-        self, data: List[StarwarsEntity], sort_by: SortField, direction: SortDirection
+        self,
+        data: List[StarwarsEntity],
+        sort_by: SortField,
+        direction: SortDirection,  # noqa: E501
     ) -> List[StarwarsEntity]:
         return sorted(
             data,
@@ -29,7 +35,10 @@ class PowerSort(SortingStrategy):
 
 class BubbleSort(SortingStrategy):
     def sort(
-        self, data: List[StarwarsEntity], sort_by: SortField, direction: SortDirection
+        self,
+        data: List[StarwarsEntity],
+        sort_by: SortField,
+        direction: SortDirection,  # noqa: E501
     ) -> List[StarwarsEntity]:
         items = data.copy()
         n = len(items)
@@ -39,14 +48,19 @@ class BubbleSort(SortingStrategy):
             for j in range(0, n - i - 1):
                 left = getattr(items[j], sort_by)
                 right = getattr(items[j + 1], sort_by)
-                if (left > right and not reverse) or (left < right and reverse):
+                if (left > right and not reverse) or (
+                    left < right and reverse
+                ):  # noqa: E501
                     items[j], items[j + 1] = items[j + 1], items[j]
         return items
 
 
 class SelectionSort(SortingStrategy):
     def sort(
-        self, data: List[StarwarsEntity], sort_by: SortField, direction: SortDirection
+        self,
+        data: List[StarwarsEntity],
+        sort_by: SortField,
+        direction: SortDirection,  # noqa: E501
     ) -> List[StarwarsEntity]:
         items = data.copy()
         n = len(items)
