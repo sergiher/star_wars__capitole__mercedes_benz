@@ -44,3 +44,25 @@ After creating that file, run the make backend and make frontend in new terminal
 If you don't provide a valid google api key, that endpoint will show the message "Please provide a GOOGLE_API_KEY"
 
 The google library may return the 503 error "The model is overloaded. Please try again later".
+
+### Adding some more logging to backend
+
+Now, the sorting api call prints a log:
+
+```bash
+logger.info(f"--------- Sort event: sort_options: {sort_options} ---------")
+```
+
+### Using environment variables to prepare the system for deployment on GCloud
+
+I have created a yaml file (backend/cloudbuild.yaml) to deploy on GCloud:
+
+```bash
+gcloud builds submit --config=cloudbuild.yaml
+```
+
+On that file, I would have to put the name of the GCloud PROJECT_ID, etc. to successfully connect with my GCloud
+
+### Basic frontend loading state and error display
+
+I did that using useState to show some loaders and with Toast to show errors (and also the IA info about people and planets of Star Wars)

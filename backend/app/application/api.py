@@ -31,6 +31,8 @@ def sort_starwars_entities(
         get_starwars_entity_service
     ),
 ):
+    logger.info(f"--------- Sort event: sort_options: {sort_options} ---------")
+
     elements = starwars_entity_service.get_all_elements(entity_type)
     if sort_options is None:
         return elements
