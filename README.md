@@ -8,15 +8,15 @@ I am using <b>hexagonal architecture</b> design for the "in" part, where the dat
 
 ## How to run the project
 
-make backend
+make backend<br>
 make frontend
 
 ## How to run the backend tests
 
-make unit
+make unit<br>
 make integration
 
 ### How to run the frontend tests
 
-cd frontend
+cd frontend<br>
 npm test
