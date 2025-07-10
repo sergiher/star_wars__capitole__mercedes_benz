@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useRef } from "react";
 import {
   MaterialReactTable,
@@ -16,8 +15,6 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 
-import { postSortingDataApi } from "~/infrastructure/api/dataApi";
-
 type Person = {
   name: string;
   created: string;
@@ -28,6 +25,45 @@ type Planet = {
   created: string;
 };
 
+import { postSortingDataApi } from "~/infrastructure/api/dataApi";
+import { fetchAiInsightApi } from "~/infrastructure/api/aiInsight";
+import { showToast } from "~/infrastructure/ui/ToastService";
+
+function getColumns(
+  entityType: EntityType,
+  loadingAIName: string | null,
+  handleAiInsightClick: (type: EntityType, name: string) => void
+): MRT_ColumnDef<Person | Planet>[] {
+  return [
+    {
+      accessorKey: "name",
+      header: "Name",
+      size: 100,
+    },
+    {
+      accessorKey: "created",
+      header: "Created",
+      size: 100,
+    },
+    {
+      header: "AI Insight",
+      id: "ai_insight_button",
+      Cell: ({ row }) =>
+        loadingAIName === row.original.name ? (
+          <span className="loader" />
+        ) : (
+          <button
+            onClick={() => handleAiInsightClick(entityType, row.original.name)}
+            className="ai_insight_button"
+          >
+            Ask AI
+          </button>
+        ),
+      size: 100,
+    },
+  ];
+}
+
 export function Welcome() {
   const peopleInitialized = useRef(false);
   const planetsInitialized = useRef(false);
@@ -35,10 +71,26 @@ export function Welcome() {
   const [planetsData, setPlanetsData] = useState<Planet[]>([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
   const [loadingPlanets, setLoadingPlanets] = useState(true);
+  const [loadingAIName, setLoadingAIName] = useState<string | null>(null);
   const [sortingPeople, setSortingPeople] = useState<MRT_SortingState>([]);
   const [sortingPlanets, setSortingPlanets] = useState<MRT_SortingState>([]);
   const [algorithm, setAlgorithm] = useState("");
 
+  async function handleAiInsightClick(entityType: string, name: string) {
+    try {
+      setLoadingAIName(name);
+      const message = await fetchAiInsightApi(entityType, name);
+      const formattedMessage = message.substring(1, message.length - 3);
+      showToast("info", formattedMessage);
+    } catch (error: any) {
+      showToast(
+        "error",
+        JSON.parse(error.message).detail || "Unexpected error"
+      );
+    } finally {
+      setLoadingAIName(null);
+    }
+  }
   async function fetchSortedData<T>(
     entityType: string,
     sortingState: MRT_SortingState,
@@ -100,8 +152,24 @@ export function Welcome() {
         header: "Created",
         size: 100,
       },
+      {
+        header: "AI Insight",
+        id: "ai_insight_button",
+        Cell: ({ row }) =>
+          loadingAIName === row.original.name ? (
+            <span className="loader" />
+          ) : (
+            <button
+              onClick={() => handleAiInsightClick("people", row.original.name)}
+              className="ai_insight_button"
+            >
+              Ask AI
+            </button>
+          ),
+        size: 100,
+      },
     ],
-    []
+    [loadingAIName]
   );
 
   useEffect(() => {
@@ -113,6 +181,16 @@ export function Welcome() {
       setLoadingPlanets
     );
   }, []);
+
+  const peopleColumns = useMemo(
+    () => getColumns("people", loadingAIName, handleAiInsightClick),
+    [loadingAIName]
+  );
+
+  const planetColumns = useMemo(
+    () => getColumns("planets", loadingAIName, handleAiInsightClick),
+    [loadingAIName]
+  );
 
   return (
     <Box textAlign="center">
@@ -145,7 +223,7 @@ export function Welcome() {
             People
           </Typography>
           <MaterialReactTable
-            columns={columns}
+            columns={peopleColumns}
             data={peopleData}
             state={{ isLoading: loadingPeople, sorting: sortingPeople }}
             enableSorting
@@ -167,7 +245,7 @@ export function Welcome() {
             Planets
           </Typography>
           <MaterialReactTable
-            columns={columns}
+            columns={planetColumns}
             data={planetsData}
             state={{ isLoading: loadingPlanets, sorting: sortingPlanets }}
             enableSorting

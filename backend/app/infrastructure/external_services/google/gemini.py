@@ -1,5 +1,6 @@
 import os
 
+from fastapi import HTTPException
 from google import genai  # type: ignore
 
 
@@ -8,7 +9,10 @@ class GoogleService:
         self.model_name = model_name
         self.api_key = os.getenv("GOOGLE_API_KEY")
         if not self.api_key:
-            self.client = None
+            raise HTTPException(
+                status_code=500,
+                detail="Please provide a GOOGLE_API_KEY",
+            )
         else:
             self.client = genai.Client(api_key=self.api_key)
 

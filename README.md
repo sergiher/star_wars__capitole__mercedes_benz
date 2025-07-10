@@ -14,7 +14,8 @@ First, clone the repository and navigate into the project directory. Then, you c
 make backend
 make frontend
 ```
-After that, you can visit the website at <a href="http://stackoverflow.com">http://localhost:6969/</a>
+
+After that, you can visit the website at <a href="http://localhost:6969">http://localhost:6969/</a>
 
 ### How to run the backend tests
 
@@ -29,3 +30,17 @@ make integration
 cd frontend
 npm test
 ```
+
+## Bonus:
+
+### simulate-ai-insight endpoint
+
+<b>Important:</b> for the simulate-ai-insight endpoint, you need a GOOGLE_API_KEY in a .env file, placed at the base of the project, at the same level than /backend and /frontend. This is the format of the .env file:
+
+GOOGLE_API_KEY="abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcd"
+
+After creating that file, run the make backend and make frontend in new terminals.
+
+If you don't provide a valid google api key, that endpoint will show the message "Please provide a GOOGLE_API_KEY"
+
+The google library may return the 503 error "The model is overloaded. Please try again later".

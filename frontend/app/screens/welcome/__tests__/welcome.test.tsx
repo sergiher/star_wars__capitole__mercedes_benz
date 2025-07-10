@@ -4,13 +4,21 @@ import { Welcome } from "../welcome";
 import React, { act } from "react";
 import "@testing-library/jest-dom";
 
-jest.mock("../../infrastructure/api/dataApi", () => ({
+jest.mock("~/infrastructure/api/dataApi", () => ({
   postSortingDataApi: jest.fn(() =>
     Promise.resolve({
       json: () =>
         Promise.resolve([
           { name: "Test Name", created: "2023-01-01T00:00:00.000Z" },
         ]),
+    })
+  ),
+}));
+
+jest.mock("~/infrastructure/api/aiInsight", () => ({
+  fetchAiInsightApi: jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([{ detail: "AI explanation" }]),
     })
   ),
 }));
