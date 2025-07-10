@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Any, Dict, List
 
 import requests
@@ -10,7 +11,9 @@ from app.domain.repositories.starwars_entity_repository import (  # type: ignore
 
 class StarwarsEntityApiRepository(StarwarsEntityRepository):
     def __init__(
-        self, base_url: str = "https://swapi.info/api", timeout: int = 30
+        self,
+        base_url: str = os.getenv("SWAPI_BASE_URL", "https://swapi.info/api"),
+        timeout: int = 30,
     ):  # noqa: E501
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
